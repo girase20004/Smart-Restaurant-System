@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chef Dashboard | SROMS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='chef/style.css') }}">
+</head>
+<body data-page="dashboard">
+  <header class="kitchen-header">
+    <div>
+      <p class="eyebrow">SROMS Kitchen</p>
+      <h1>Chef Dashboard</h1>
+    </div>
+    <nav>
+      <a class="nav-link active" href="{{ url_for('chef.dashboard') }}">Dashboard</a>
+      <a class="nav-link" href="{{ url_for('chef.orders_page') }}">Kitchen Orders</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="toolbar">
+      <div>
+        <h2>Active Orders</h2>
+        <p>Auto-refreshes every 5 seconds.</p>
+      </div>
+      <button class="secondary-button" data-refresh-orders>Refresh Now</button>
+    </section>
+
+    <section id="ordersGrid" class="orders-grid" aria-live="polite">
+      {% for order in orders %}
+        {% include 'chef/_order_card.html' %}
+      {% else %}
+        <div class="empty-state">No active kitchen orders right now.</div>
+      {% endfor %}
+    </section>
+  </main>
+
+  <template id="emptyTemplate"><div class="empty-state">No orders match this view.</div></template>
+  <script src="{{ url_for('static', filename='chef/script.js') }}"></script>
+</body>
+</html>

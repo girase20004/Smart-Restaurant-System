@@ -1,0 +1,34 @@
+<article class="order-card status-{{ order.status|lower }}" data-order-id="{{ order.id }}" data-status="{{ order.status }}">
+  <form class="fallback-status-form" method="post" action="{{ url_for('chef.update_order_status_page') }}">
+    <input type="hidden" name="order_id" value="{{ order.id }}">
+    <div class="card-topline">
+      <span class="order-id">Order #{{ order.id }}</span>
+      <span class="status-pill">{{ order.status }}</span>
+    </div>
+    <div class="table-number">Table {{ order.table.table_number if order.table else order.table_id }}</div>
+    <ul class="item-list">
+      {% for item in order.items %}
+        <li>
+          <div>
+            <strong>{{ item.menu.dish_name if item.menu else 'Unknown item' }}</strong>
+            {% if item.notes %}<p class="notes">Note: {{ item.notes }}</p>{% endif %}
+          </div>
+          <span class="quantity">× {{ item.quantity }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="card-actions">
+      {% if order.status == 'NEW' %}
+        <button class="action-button" name="status" value="ACCEPTED" data-next-status="ACCEPTED">Accept Order</button>
+      {% elif order.status == 'ACCEPTED' %}
+        <button class="action-button" name="status" value="COOKING" data-next-status="COOKING">Start Cooking</button>
+      {% elif order.status == 'COOKING' %}
+        <button class="action-button" name="status" value="READY" data-next-status="READY">Mark Ready</button>
+      {% elif order.status == 'READY' %}
+        <button class="action-button" name="status" value="SERVED" data-next-status="SERVED">Mark Served</button>
+      {% else %}
+        <span class="served-label">Completed</span>
+      {% endif %}
+    </div>
+  </form>
+</article>
