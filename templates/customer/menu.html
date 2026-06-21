@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Menu | SROMS</title><link rel="stylesheet" href="{{ url_for('static', filename='customer/style.css') }}"></head>
+<body data-table-number="{{ table.table_number }}">
+<nav class="nav sticky"><a class="logo" href="{{ url_for('customer.home', table_number=table.table_number) }}">🍽️ SROMS</a><a class="cart-link" href="{{ url_for('customer.cart', table_number=table.table_number) }}">Cart <span id="cart-count">0</span></a></nav>
+<main class="container">
+  <section class="section"><h1>Menu for Table {{ table.table_number }}</h1>
+    <form class="search" action="{{ url_for('customer.menu', table_number=table.table_number) }}"><input name="q" value="{{ search }}" placeholder="Search dishes"><button>Search</button></form>
+    <div class="chips"><a class="chip" href="{{ url_for('customer.menu', table_number=table.table_number) }}">All</a>{% for cat in categories %}<a class="chip {{ 'active' if cat == category else '' }}" href="{{ url_for('customer.menu', table_number=table.table_number, category=cat) }}">{{ cat }}</a>{% endfor %}</div>
+    <div class="dish-grid">{% for item in menu_items %}{% include 'customer/_dish_card.html' %}{% else %}<p class="muted">No dishes found.</p>{% endfor %}</div>
+  </section>
+</main><script src="{{ url_for('static', filename='customer/script.js') }}"></script>
+</body></html>

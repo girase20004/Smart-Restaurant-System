@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ item.dish_name }} | SROMS</title><link rel="stylesheet" href="{{ url_for('static', filename='customer/style.css') }}"></head>
+<body data-table-number="{{ table.table_number }}">
+<nav class="nav sticky"><a class="logo" href="{{ url_for('customer.menu', table_number=table.table_number) }}">← Menu</a><a class="cart-link" href="{{ url_for('customer.cart', table_number=table.table_number) }}">Cart <span id="cart-count">0</span></a></nav>
+<main class="container details-layout">
+  <img class="detail-image" src="{{ item.image or 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c' }}" alt="{{ item.dish_name }}">
+  <section class="detail-panel">
+    <div class="badges"><span class="badge {{ 'veg' if item.veg_nonveg == 'veg' else 'nonveg' }}">{{ item.veg_nonveg }}</span>{% if item.best_seller %}<span class="badge gold">Best Seller</span>{% endif %}</div>
+    <h1>{{ item.dish_name }}</h1><p class="price">₹{{ '%.2f'|format(item.price) }}</p>
+    <dl class="specs"><dt>Ingredients</dt><dd>{{ item.ingredients or 'Ask staff for ingredient details.' }}</dd><dt>Spice Level</dt><dd>{{ item.spice_level or 'Medium' }}</dd><dt>Allergens</dt><dd>{{ item.allergens or 'None listed' }}</dd><dt>Preparation Time</dt><dd>{{ item.prep_time or '—' }} minutes</dd><dt>Food Type</dt><dd>{{ item.veg_nonveg }}</dd></dl>
+    <button class="wide" data-add-to-cart data-menu-id="{{ item.id }}" data-name="{{ item.dish_name }}" data-price="{{ item.price }}" {% if not item.availability %}disabled{% endif %}>Add to Cart</button>
+  </section>
+</main><script src="{{ url_for('static', filename='customer/script.js') }}"></script>
+</body></html>

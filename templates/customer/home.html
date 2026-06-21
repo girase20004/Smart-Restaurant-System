@@ -1,0 +1,55 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SROMS | Table {{ table.table_number }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='customer/style.css') }}">
+</head>
+<body data-table-number="{{ table.table_number }}">
+  <header class="hero">
+    <nav class="nav"><div class="logo">🍽️ SROMS</div><a class="cart-link" href="{{ url_for('customer.cart', table_number=table.table_number) }}">Cart <span id="cart-count">0</span></a></nav>
+    <div class="hero-content">
+      <p class="eyebrow">Table {{ table.table_number }}</p>
+      <h1>Welcome! Order fresh food from your table.</h1>
+      <p>Browse chef specials, add favorites to cart, and place orders without waiting for staff.</p>
+      <form class="search" action="{{ url_for('customer.menu', table_number=table.table_number) }}">
+        <input name="q" type="search" placeholder="Search biryani, naan, drinks..." aria-label="Search dishes">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="section-title"><h2>Food Categories</h2><a href="{{ url_for('customer.menu', table_number=table.table_number) }}">View full menu</a></div>
+      <div class="category-grid">
+        {% for category in categories %}
+          <a class="category-card" href="{{ url_for('customer.menu', table_number=table.table_number, category=category) }}">{{ category }}</a>
+        {% else %}
+          <p class="muted">No categories available yet.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title"><h2>Today's Special</h2></div>
+      <div class="dish-grid">
+        {% for item in specials %}
+          {% include 'customer/_dish_card.html' %}
+        {% else %}<p class="muted">Special dishes will appear here.</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title"><h2>Best Sellers</h2></div>
+      <div class="dish-grid">
+        {% for item in best_sellers %}
+          {% include 'customer/_dish_card.html' %}
+        {% else %}<p class="muted">Best sellers will appear here.</p>{% endfor %}
+      </div>
+    </section>
+
+    <aside class="bill-card"><h3>Running Bill</h3><div id="running-bill">Loading...</div></aside>
+  </main>
+  <script src="{{ url_for('static', filename='customer/script.js') }}"></script>
+</body>
+</html>

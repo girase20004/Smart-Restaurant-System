@@ -1,0 +1,17 @@
+<article class="dish-card">
+  <img src="{{ item.image or 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c' }}" alt="{{ item.dish_name }}">
+  <div class="dish-body">
+    <div class="badges">
+      <span class="badge {{ 'veg' if item.veg_nonveg == 'veg' else 'nonveg' }}">{{ item.veg_nonveg }}</span>
+      {% if item.best_seller %}<span class="badge gold">Best Seller</span>{% endif %}
+      {% if item.todays_special %}<span class="badge special">Special</span>{% endif %}
+    </div>
+    <h3>{{ item.dish_name }}</h3>
+    <p class="muted">{{ item.category }} • {{ item.prep_time or '—' }} min</p>
+    <div class="price-row"><strong>₹{{ '%.2f'|format(item.price) }}</strong><span class="{{ 'available' if item.availability else 'unavailable' }}">{{ 'Available' if item.availability else 'Unavailable' }}</span></div>
+    <div class="actions">
+      <a class="secondary" href="{{ url_for('customer.dish_details', table_number=table.table_number, menu_id=item.id) }}">Details</a>
+      <button data-add-to-cart data-menu-id="{{ item.id }}" data-name="{{ item.dish_name }}" data-price="{{ item.price }}" {% if not item.availability %}disabled{% endif %}>Add to Cart</button>
+    </div>
+  </div>
+</article>

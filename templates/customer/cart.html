@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cart | SROMS</title><link rel="stylesheet" href="{{ url_for('static', filename='customer/style.css') }}"></head>
+<body data-table-number="{{ table.table_number }}">
+<nav class="nav sticky"><a class="logo" href="{{ url_for('customer.menu', table_number=table.table_number) }}">← Add More Items</a><span>Table {{ table.table_number }}</span></nav>
+<main class="container cart-layout">
+  <section class="cart-panel"><h1>Your Cart</h1><p class="muted">Add cooking notes like “No onion” or “Less spicy”.</p><div id="cart-items"></div><a class="secondary" href="{{ url_for('customer.menu', table_number=table.table_number) }}">Add More Items</a></section>
+  <aside class="summary"><h2>Order Summary</h2><div class="summary-line"><span>Subtotal</span><strong id="subtotal">₹0</strong></div><div class="summary-line"><span>GST 5%</span><strong id="gst">₹0</strong></div><div class="summary-line total"><span>Total</span><strong id="total">₹0</strong></div><button id="place-order" class="wide">Place Order</button><p id="order-message" class="muted"></p><h3>Current Running Bill</h3><div id="running-bill">Loading...</div></aside>
+</main><script src="{{ url_for('static', filename='customer/script.js') }}"></script>
+</body></html>
